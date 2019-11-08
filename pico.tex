@@ -1,0 +1,351 @@
+%From https://egu2018.eu/PICO_how-to_guide_to_PICO.pdf
+%Abstracted and templated by Brian Ballsun-Stanton, Macquarie University.
+%original template by https://github.com/snowtechblog/pico-latex-presentation by Anselm Köhler
+
+\documentclass[unknownkeysallowed,usepdftitle=false, parskip=full]{beamer}
+% unknownkeysallowed is needed for mac and the newer latex version -> is more picky than before...
+\usetheme[headheight=1cm,footheight=2cm]{boxes}
+%\usetheme{default}
+
+
+\usepackage{default}
+\usepackage{graphicx}
+%example pictures created via: http://lorempixel.com/1200/800/cats/Figure2/. Credit to http://lorempixel.com/images.php
+
+\usepackage{epsfig}
+\usepackage{siunitx}
+\usepackage{color}
+\usepackage{ifthen}
+%usepackage{ragged2e}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%https://tex.stackexchange.com/a/203804/5483
+
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype} % http://www.khirevich.com/latex/microtype/
+\microtypecontext{spacing=nonfrench}
+
+\usepackage{lipsum} % for dummy text only
+\usepackage[UKenglish]{babel} %https://tex.stackexchange.com/a/27743 
+\usepackage[pangram]{blindtext} % https://tex.stackexchange.com/a/48411
+
+%\usepackage{parskip} % from https://tex.stackexchange.com/q/11622
+%\setlength{\parskip}{12pt} 
+
+%\setparsizes{\parindent}{12pt}{\parfillskip}
+
+%\usepackage{etoolbox} % as per https://tex.stackexchange.com/a/24331
+%\appto\chapterheadendvskip{\vspace{-1\parskip}}
+%\setparsizes{\parindent}{50pt plus 20pt minus 30pt}{\parfillskip}
+
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+\setbeamersize{text margin left=1cm,text margin right=1cm}
+
+% some colors
+\definecolor{grau}{gray}{.5}
+\definecolor{slfcolor}{rgb}{0,0.6274,0.8353}
+\definecolor{wslcolor}{rgb}{0,0.4,0.4}
+
+% setup links
+\hypersetup{%
+	%linkbordercolor=green,%
+	colorlinks=false,%
+	pdfborderstyle={/S/U/W 0},%
+	%pdfpagemode=FullScreen,%
+	pdfstartpage=4%
+	}
+
+% setup some fonts
+\setbeamerfont{title}{series=\bfseries, size=\small}
+\setbeamerfont{author}{size*={5pt}{0pt}}
+\setbeamerfont{institute}{size*={3pt}{0pt}}
+\setbeamerfont{bodytext}{size=\scriptsize}
+	
+% Title setup	
+\title{Managing Qualitative Data In The Field: \\ Images, Metadata and Secure Storage}
+\author{Sophie Wallace\inst{1} (\texttt{sophie.wallace@students.mq.edu.au}) \inst{1}}
+\institute{\inst{1}Macquarie University, Sydney, NSW}
+
+% add title in headbox
+\setbeamertemplate{headline}
+{\leavevmode
+\begin{beamercolorbox}[width=1\paperwidth]{head title}
+  % LOGO
+  \begin{columns}[t, totalwidth=\textwidth]
+  \begin{column}[c]{1.05cm}
+   \includegraphics[width=1cm]{Tropy_Icon.jpg}
+  \end{column}
+  % TITLE
+   \begin{column}[c]{10.6cm}
+   \centering \usebeamerfont{title} \textcolor{slfcolor}{\inserttitle} \\
+   \centering \usebeamerfont{author} \color[rgb]{0,0,0} \insertauthor \\
+   \vspace{-0.05cm}
+   \centering \usebeamerfont{institute} \insertinstitute
+  \end{column}
+  % PICTURE
+  \begin{column}[c]{1.15cm}
+    \hspace{0.005cm}
+    \includegraphics[width=1cm]{ExifTool_Icon.jpg}
+  \end{column}
+  \end{columns}
+  {\color{slfcolor}\hrule height 1pt\vspace{0.1cm}}
+\end{beamercolorbox}%
+}
+
+% setup the navigation in footbox
+% first set some button colors
+\newcommand{\buttonactive}{\setbeamercolor{button}{bg=wslcolor,fg=white}}
+\newcommand{\buttonpassive}{\setbeamercolor{button}{bg=slfcolor,fg=black}}
+% now set up that the one active one gets the new color.
+\newcommand{\secvariable}{nothing}
+% therefore we write before each section (well, everything which should be part of the navi bar)
+% the variable \secvariable to any name which is in the next function ...
+\newcommand{\mysection}[1]{\renewcommand{\secvariable}{#1}
+}
+% ... compaired to strings in the following navibar definition ...
+\newcommand{\tocbuttoncolor}[1]{%
+ \ifthenelse{\equal{\secvariable}{#1}}{%
+    \buttonactive}{%
+    \buttonpassive}
+ }
+% ... here we start to set up the navibar. each entry is calling first the function \tocbuttoncolor with the argument which should be tested for beeing active. if active, then change color. afterwards the button is draw. so to change that, you need to change the argument in \toc..color, the first in \hyperlink and before each frames definition... A bit messed up, but works...
+\newlength{\buttonspacingfootline}
+\setlength{\buttonspacingfootline}{-0.2cm}
+\setbeamertemplate{footline}
+{\leavevmode
+\begin{beamercolorbox}[width=1\paperwidth]{head title}
+  {\color{slfcolor}\hrule height 1pt}
+  \vspace{0.05cm}
+  % set up the buttons in an mbox
+  \centering \mbox{
+    \tocbuttoncolor{abstract}
+    \hyperlink{abstract}{\beamerbutton{2 Minute Madness}}
+    \tocbuttoncolor{radar}
+    \hspace{\buttonspacingfootline}
+      \hyperlink{radar}{\beamerbutton{Section 1}}
+
+    \tocbuttoncolor{line}
+    \hspace{\buttonspacingfootline}
+      \hyperlink{line}{\beamerbutton{Section 2}}
+    \tocbuttoncolor{major}
+    \hspace{\buttonspacingfootline}
+      \hyperlink{major}{\beamerbutton{Section 3}}
+    \tocbuttoncolor{slab}
+    \hspace{\buttonspacingfootline}
+      \hyperlink{slab}{\beamerbutton{Section 4}}
+    \tocbuttoncolor{minor}
+    \hspace{\buttonspacingfootline}
+      \hyperlink{minor}{\beamerbutton{Section 5}}
+    \tocbuttoncolor{conclusion}
+    \hspace{\buttonspacingfootline}
+      \hyperlink{conclusion}{\beamerbutton{Conclusion}}
+    % this last one should normaly not be used... it will open the preferences to change the 
+    % behaviour of the acrobat reader in fullscreen -> usefull in pico...
+    \setbeamercolor{button}{bg=white,fg=black}
+    % for presentation
+    %\hspace{-0.1cm}\Acrobatmenu{FullScreenPrefs}{\beamerbutton{\#}}
+    % for upload
+    
+     
+\Acrobatmenu{FullScreenPrefs}{\vspace{0.3cm}\hspace{0.24cm}\mbox{%
+      \includegraphics[height=0.04\textheight,keepaspectratio]{%
+	  figure/CreativeCommons_Attribution_License.eps}%
+	  }}
+   }
+    \vspace{0.05cm}
+\end{beamercolorbox}%
+}
+
+
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{abstract}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable}
+
+\usebeamerfont{bodytext}
+
+\parbox{\linewidth}{
+
+%Original template: https://github.com/snowtechblog/pico-latex-presentation by Anselm Köhler
+
+\textbf{Aim:} This research project aims to demonstrate a streamlined process of managing images on a Mac laptop. This includes exporting the images from the default Photo library, embedding metadata into the image, organising the images in a research photo management system and storing the images securely. 
+\vspace{12pt}
+
+\textbf{Why:} This it to make the research process more manageable and efficient. Messy and unorganised data is very common in the field. Using this workflow enables the researcher to sit back whilst the photos are organised and metadata is added to the images.
+\vspace{12pt}
+
+\textbf{Useful for:} This is useful for researchers and students in the field who take photographs as part of their data collection. 
+\vspace{12pt}
+
+\textbf{Significance:} This provides better time management, detail, efficiency and reduces the stress of managing large data sets. Additionally, securely storing the images prevents the loss of data and information. 
+\vspace{12pt}
+
+\textbf{Additional information:} Released under MIT License. Further details can be found on github at: $https://github.com/MQ-FOAR705/SophieWallace_Pico_Presentation$ and $https://github.com/MQ-FOAR705/SophieWallace_POC_Contents$
+
+}
+ 
+  
+\end{frame}
+
+\begin{frame}\label{\secvariable}
+  \begin{columns}[t]
+  %https://tex.stackexchange.com/a/7452/5483
+  \begin{column}[c]{0.45\textwidth}
+%http://lorempixel.com/1200/800/cats/Figure2/     
+%http://lorempixel.com/1200/800/cats/Figure3/
+\includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{%
+Automator_Demo.png}\\
+\vspace{12pt}
+\includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{%
+Tropy_Demo.png}
+    \end{column}
+    \begin{column}[c]{0.50\textwidth}
+    \parbox{\linewidth}{
+      
+  
+ \textbf{Image 1:} Displays Automator workflow that exports images from the Mac Photos application and embeds metadata. The action 'Run Shell Script' adds the name of the researcher, the original date and time the photo was taken and prompts the user to write the location where the photos were taken. 
+\vspace{8pt}
+
+\textbf{Image 2:} Displays how these images and their metadata are recorded in Tropy. Prior to this workflow, the images were named generically and the other categories were empty. This enables managing photos to be more efficient and easy.
+             
+ 
+   
+      }
+    \end{column}
+    
+  \end{columns}
+
+  
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{radar}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable}
+  \begin{columns}[t]
+  %https://tex.stackexchange.com/a/7452/5483
+    \begin{column}[c]{0.50\textwidth}
+    \parbox{\linewidth}{
+
+\textbf{Using Automator:} $https://support.apple.com/en-au/guide/automator/welcome/mac$   
+ 
+ Voyant tools is an open-sourced, web-based application for textual analysis. It can be accessed via any web browser here: 
+      \vspace{8pt}
+      
+The tools can be used to pinpoint certain sections of the text and identify shared key themes. It also highlights the relevance of each source. According to information identified in Voyant, creates the relevant information that will be used to tag, annotate and groups sources together in Zotero. 	
+      }
+    \end{column}
+    \begin{column}[c]{0.45\textwidth}
+%http://lorempixel.com/1200/800/cats/Figure2/     
+%http://lorempixel.com/1200/800/cats/Figure3/
+\includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{%
+figure/voyant-tools-image.jpg}\\
+\vspace{12pt}
+\includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{%
+figure/voyant-tools-trends-image.jpg}
+    \end{column}
+  \end{columns}
+
+  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{line}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable}
+\begin{center}
+  \vspace{-0.5cm}
+  %http://lorempixel.com/1200/800/cats/Figure4/
+ \includegraphics[width=1\textwidth,height=0.75\textheight,keepaspectratio]{%
+  zotero-library-image3.png}
+\end{center}
+  \vspace{-0.5cm}
+   \textbf{Transferring to Zotero:} The above image displays a list of sources stored in the Zotero library. The right hand panel demonstrates the metadata that is stored with the source which can be automatically generated into a bibliographic entry or citation.    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{major}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable} %%Eine Folie
+\begin{center}
+%http://lorempixel.com/1200/800/cats/Figure5/
+\includegraphics[width=1\textwidth,height=0.8\textheight,keepaspectratio]{%
+zotero-add-notes2.png}
+\end{center}
+
+    \parbox{\linewidth}{
+Using the information collected from Voyant, detailed annotations about each source can be stored in Zotero. This becomes very useful in the later stages of the research process. 
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{slab}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable}
+%http://lorempixel.com/1200/800/cats/Figure6/
+\begin{center}
+\includegraphics[width=1\textwidth,height=0.75\textheight,keepaspectratio]{%
+zotero-tags-image2.jpg}
+\end{center}
+    \parbox{\linewidth}{
+
+The information collected from Voyant and entered into the annotations can be further shortened into tags which group sources together according to their relevance. Tags should be short and concise.
+}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{minor}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable} %%Eine Folie
+\begin{center}
+%http://lorempixel.com/1200/800/cats/Figure7/
+\includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{%
+zotero-search-image2.png}
+\end{center}
+\vspace{-0.2cm}
+
+Sources can be searched for via tag, author, key words or title in Zotero. The image above displays sources that are grouped together by the tag "labour market". The image shows the source pdf file, the snapshot of the website it was extracted from and that there has been an annotation added. 
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{minor}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable} %%Eine Folie
+\begin{center}
+%http://lorempixel.com/1200/800/cats/Figure7/
+\includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{%
+figure/zotero-citation-image.jpg}
+\end{center}
+\vspace{-0.2cm}
+
+%
+This image displays the citation & bibliographic details generator. It can be accessed by right-clicking any source in the Zotero library. A specific style can be selected and transferred to a publishing program, making managing bibliographies and citations much easier.
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysection{conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\label{\secvariable}
+
+  More information on this presentation and related content can be found here:
+    \begin{itemize}
+   \item  \textbf{Pico Presentation:} 
+   https://github.com/MQ-FOAR705/E-Kirkpatrick-Pico-Presentation
+  \item \textbf{Proof of Concept, Images and Project Management:} https://github.com/MQ-FOAR705/E-Kirkpatrick-PoC-project
+   \end{itemize}
+
+  \usebeamerfont{bodytext}
+ 
+
+\end{frame}
+
+
+
+\end{document}
