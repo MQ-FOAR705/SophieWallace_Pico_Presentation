@@ -206,10 +206,10 @@ Tropy_Demo.png}
     \parbox{\linewidth}{
       
   
- \textbf{Image 1:} Displays Automator workflow that exports images from the Mac Photos application and embeds metadata. The action 'Run Shell Script' adds the name of the researcher, the original date and time the photo was taken and prompts the user to write the location where the photos were taken. 
+ \textbf{Image 1:} Automator workflow that exports images from the Mac Photos application and embeds metadata. The action 'Run Shell Script' adds the name of the researcher, the original date and time the photo was taken and prompts the user to write the location where the photos were taken. 
 \vspace{8pt}
 
-\textbf{Image 2:} Displays how these images and their metadata are recorded in Tropy. Prior to this workflow, the images were named generically and the other categories were empty. This enables managing photos to be more efficient and easy.
+\textbf{Image 2:} How these images and their metadata are recorded in Tropy. Prior to this, the images were named generically and the other categories were empty. 
              
  
    
@@ -229,22 +229,21 @@ Tropy_Demo.png}
     \begin{column}[c]{0.50\textwidth}
     \parbox{\linewidth}{
 
-\textbf{Using Automator:} $https://support.apple.com/en-au/guide/automator/welcome/mac$   
- 
- Voyant tools is an open-sourced, web-based application for textual analysis. It can be accessed via any web browser here: 
+\textbf{Using Automator:} 
+Automator is an exclusive Mac application that programs a workflow by automating repetitive tasks using a drag and drop interface. $https://macosxautomation.com/automator/$   
       \vspace{8pt}
       
-The tools can be used to pinpoint certain sections of the text and identify shared key themes. It also highlights the relevance of each source. According to information identified in Voyant, creates the relevant information that will be used to tag, annotate and groups sources together in Zotero. 	
+Workflows are created by combining a set of actions to produce a result. There are numerous variables and pathways to achieve this. A shell script can also be included in the workflow.
       }
     \end{column}
     \begin{column}[c]{0.45\textwidth}
 %http://lorempixel.com/1200/800/cats/Figure2/     
 %http://lorempixel.com/1200/800/cats/Figure3/
 \includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{%
-figure/voyant-tools-image.jpg}\\
+figure/Automator1.png}\\
 \vspace{12pt}
 \includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{%
-figure/voyant-tools-trends-image.jpg}
+figure/Automator2.png}
     \end{column}
   \end{columns}
 
@@ -259,10 +258,10 @@ figure/voyant-tools-trends-image.jpg}
   \vspace{-0.5cm}
   %http://lorempixel.com/1200/800/cats/Figure4/
  \includegraphics[width=1\textwidth,height=0.75\textheight,keepaspectratio]{%
-  zotero-library-image3.png}
+  figure/ExifTool1.png}
 \end{center}
   \vspace{-0.5cm}
-   \textbf{Transferring to Zotero:} The above image displays a list of sources stored in the Zotero library. The right hand panel demonstrates the metadata that is stored with the source which can be automatically generated into a bibliographic entry or citation.    
+   \textbf{Using ExifTool:} ExifTool is an open-source software program for reading, writing, and manipulating image, audio, video, and PDF metadata. The image above shows ExifTool displaying metadata already embedded in an image.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -272,11 +271,11 @@ figure/voyant-tools-trends-image.jpg}
 \begin{center}
 %http://lorempixel.com/1200/800/cats/Figure5/
 \includegraphics[width=1\textwidth,height=0.8\textheight,keepaspectratio]{%
-zotero-add-notes2.png}
+figure/ExifTool2.png}
 \end{center}
 
     \parbox{\linewidth}{
-Using the information collected from Voyant, detailed annotations about each source can be stored in Zotero. This becomes very useful in the later stages of the research process. 
+\textbf{Combining Automator and ExifTool:} With the automator action "run shell script", a basic ExifTool script was able to be included directly in this workflow.  
 }
 \end{frame}
 
@@ -287,11 +286,11 @@ Using the information collected from Voyant, detailed annotations about each sou
 %http://lorempixel.com/1200/800/cats/Figure6/
 \begin{center}
 \includegraphics[width=1\textwidth,height=0.75\textheight,keepaspectratio]{%
-zotero-tags-image2.jpg}
+figure/ExifTool2.png}
 \end{center}
     \parbox{\linewidth}{
 
-The information collected from Voyant and entered into the annotations can be further shortened into tags which group sources together according to their relevance. Tags should be short and concise.
+This shell script adds metadata to Tropy categories such as creator, name, date and type. Due to the arbitrary nature of 'type', a prompt was included to ask for geo-location.
 }
 
 \end{frame}
@@ -304,11 +303,11 @@ The information collected from Voyant and entered into the annotations can be fu
 \begin{center}
 %http://lorempixel.com/1200/800/cats/Figure7/
 \includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{%
-zotero-search-image2.png}
+figure/Tropy_Before.png}
 \end{center}
 \vspace{-0.2cm}
 
-Sources can be searched for via tag, author, key words or title in Zotero. The image above displays sources that are grouped together by the tag "labour market". The image shows the source pdf file, the snapshot of the website it was extracted from and that there has been an annotation added. 
+\textbf{Using Tropy:} Tropy is an open-source software program for research photo management. This tool imports images and organises them with metadata and tags. Metadata needs to be added manually. Above displays how generic images are displayed after importing. 
 
 \end{frame}
 
@@ -319,12 +318,12 @@ Sources can be searched for via tag, author, key words or title in Zotero. The i
 \begin{center}
 %http://lorempixel.com/1200/800/cats/Figure7/
 \includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{%
-figure/zotero-citation-image.jpg}
+Tropy_Demo.png}
 \end{center}
 \vspace{-0.2cm}
 
 %
-This image displays the citation & bibliographic details generator. It can be accessed by right-clicking any source in the Zotero library. A specific style can be selected and transferred to a publishing program, making managing bibliographies and citations much easier.
+\textbf{Combining tools:} With Automator, ExifTool and Tropy, the images are uploaded in a more streamlined process and metadata is added seamlessly along the way. The image above displays the final result.
 
 
 \end{frame}
